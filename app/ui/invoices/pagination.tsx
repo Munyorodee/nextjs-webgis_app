@@ -3,26 +3,24 @@
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation'; // Import useRouter
 import { generatePagination } from '@/app/lib/utils';
 
 export default function Pagination({ totalPages }: { totalPages: number }) {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const currentPage = Number(searchParams.get('page')) || 1;
+  const { pathname, query } = useRouter(); // Use router to get pathname and query
+  const currentPage = Number(query.page) || 1; // Use query.page for current page
 
   const createPageURL = (pageNumber: number | string) => {
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams(query as any); // Convert query to URLSearchParams
     params.set('page', pageNumber.toString());
     return `${pathname}?${params.toString()}`;
   };
-  // NOTE: Uncomment this code in Chapter 11
 
-  // const allPages = generatePagination(currentPage, totalPages);
+  // Uncomment this code if you have the generatePagination function
+  const allPages = generatePagination(currentPage, totalPages);
 
   return (
     <>
-      {/*  NOTE: Uncomment this code in Chapter 11 */}
-
       <div className="inline-flex">
         <PaginationArrow
           direction="left"
@@ -126,3 +124,4 @@ function PaginationArrow({
     </Link>
   );
 }
+
