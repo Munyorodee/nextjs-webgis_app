@@ -7,8 +7,9 @@ import { useRouter } from 'next/navigation'; // Import useRouter
 import { generatePagination } from '@/app/lib/utils';
 
 export default function Pagination({ totalPages }: { totalPages: number }) {
-  const { pathname, query } = useRouter(); // Use router to get pathname and query
-  const currentPage = Number(query.page) || 1; // Use query.page for current page
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get('page')) || 1;
 
   const createPageURL = (pageNumber: number | string) => {
     const params = new URLSearchParams(query as any); // Convert query to URLSearchParams
